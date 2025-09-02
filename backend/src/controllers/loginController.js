@@ -89,20 +89,20 @@ loginController.login = async (req, res) => {
     }
 
     // Generar token
-    jsonwebtoken.sign(
-      //1- Que voy a guardar
-      { id: userFound._id, userType },
-      //2- Clave secreta
-      config.JWT.secret,
-      //3- Cuando expira
-      { expiresIn: config.JWT.expiresIn }
-    );
+    const token = jsonwebtoken.sign(
+  //1- Que voy a guardar
+  { id: userFound._id, userType },
+  //2- Clave secreta
+  config.JWT.secret,
+  //3- Cuando expira
+  { expiresIn: config.JWT.expiresIn }
+);
 
-    res.cookie("authToken", token, {
-      maxAge: 24 * 60 * 60 * 1000,
-      path: "/",
-      sameSite: "lax",
-    });
+res.cookie("authToken", token, {
+  maxAge: 24 * 60 * 60 * 1000,
+  path: "/",
+  sameSite: "lax",
+});
     res.json({ message: "login successful" });
   } catch (error) {
     console.log(error);
